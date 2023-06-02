@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.Owin;
 using Owin;
 using System.Web.Routing;
@@ -10,7 +11,8 @@ namespace CORS.Server
 {
     public class Startup
     {
-        public static string EmbeddedReportsPrefix = "CORS.Server.Reports";
+        private static readonly string CurrentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)?.Replace("file:\\", "");
+        public static readonly DirectoryInfo ReportsDirectory = new DirectoryInfo(Path.Combine(CurrentDir, "Reports"));
 
         public void Configuration(IAppBuilder app)
         {
@@ -18,7 +20,7 @@ namespace CORS.Server
 
             app.UseReporting(settings =>
             {
-                settings.UseEmbeddedTemplates(EmbeddedReportsPrefix, Assembly.GetAssembly(GetType()));
+                settings.UseFileStore(ReportsDirectory);
                 settings.UseCompression = true;
             });
 

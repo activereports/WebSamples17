@@ -8,14 +8,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorViewerServer
 {
     public class Startup
     {
+        private static readonly string CurrentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)?.Replace("file:\\", "");
+        public static readonly DirectoryInfo ReportsDirectory = new DirectoryInfo(Path.Combine(CurrentDir, "Reports"));
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,6 +32,8 @@ namespace BlazorViewerServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<ReportsService>();
@@ -50,7 +57,7 @@ namespace BlazorViewerServer
 
             app.UseReporting(settings =>
             {
-                settings.UseEmbeddedTemplates(ReportsService.EmbeddedReportsPrefix, Assembly.GetAssembly(GetType()));
+                settings.UseFileStore(ReportsDirectory);
                 settings.UseCompression = true;
             });
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Hosting;
@@ -13,7 +14,8 @@ namespace JSViewer_MVCCore
 {
     public class Startup
     {
-        public static string EmbeddedReportsPrefix = "JSViewer_MVC_Core.Reports";
+        private static readonly string CurrentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)?.Replace("file:\\", "");
+        public static readonly DirectoryInfo ReportsDirectory = new DirectoryInfo(Path.Combine(CurrentDir, "Reports"));
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -43,10 +45,12 @@ namespace JSViewer_MVCCore
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseFileServer();
 
             app.UseReporting(settings =>
             {
-                settings.UseEmbeddedTemplates(EmbeddedReportsPrefix, Assembly.GetAssembly(GetType()));
+                settings.UseFileStore(ReportsDirectory);
                 settings.UseCompression = true;
             });
 

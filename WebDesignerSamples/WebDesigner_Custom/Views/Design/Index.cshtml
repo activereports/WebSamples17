@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ActiveReports Web Designer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- No Virtual Directory -->
+    <base href="/">
+
+    <!-- For Virtual Directory -->
+    <!--<base href="/VirtualDirectoryName/">-->
+
+    <link rel="stylesheet" href="vendor/css/fonts-googleapis.css" type="text/css"/>
+    <link rel="stylesheet" href="jsViewer.min.css"/>
+    <link rel="stylesheet" href="web-designer.css"/>
+    <link href="index.css" rel="stylesheet">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png"/>
+    <link rel="shortcut icon" href="icons/favicon.ico"/>
+
+</head>
+<body>
+<script src="jsViewer.min.js"></script>
+<script src="web-designer.js"></script>
+
+<div class="main">
+    <div class="main-nav navbar">
+        <div id='list-heading'>Select report</div>
+        <ul id="reportsList" class="nav navbar-nav"></ul>
+    </div>
+	<div id="ar-web-designer" class="ar-web-designer">
+		<span class="ar-web-designer__loader">
+			<b>Loading...</b>
+		</span>
+	</div>
+</div>
+<script>
+		var viewer = null;
+		var reportsList = null;
+		
+		GrapeCity.ActiveReports.Designer.addLanguage('en', [
+        	{
+        		"ns": "app",
+        		"lng": "en",
+        		"resources": {
+        			"about": {
+						"textAppTitleCompact": "",
+					},
+        		}
+        	},
+        ]);
+		
+		getReports().then(reports => {
+			reportsList = reports;
+            fillReportsList(reports);
+            selectReportElement(reports[0].Id);
+			
+			GrapeCity.ActiveReports.Designer.create('#ar-web-designer', {
+				document: { id: reports[0].Id, type: { type: 'report', platform: 'rdlx' }},
+            	appBar: { 
+            		aboutButton: { visible: false },
+            		parametersTab : { visible: false },
+            		contextActionsTab: { visible: false }
+            		},
+            	propertyGrid: { mode: 'Basic' },
+            	fonts : [
+            			{ header: 'Questionable Choice' }, 
+            			{ label: 'Pretty Font', value: 'Comic Sans MS' }, 
+            			{ header: '' },
+            			 'Arial', 
+            			 'Courier New', 
+            			 'Times New Roman'
+            			 ],
+            	data: {
+            		dataTab: { visible: false },
+            		},
+            	menu: {
+            		logo: { custom: { type: 'css', class: 'example-icon' } },
+            		toolBox: { visible: false },
+					layerEditor: { visible: false },
+            	},
+				statusBar: {
+					propertiesModeButton: { visible: false }
+            	},
+            	lockLayout: true,
+            	filterProperties: (descriptors, item, platform) => {
+                	return descriptors.filter(d =>
+                		{  
+                			return d.valuePath !== 'Value' 
+                			&& d.valuePath !== 'Name' 
+                			&& d.valuePath !== 'Style.Format'
+                			&& d.category !== 'propertyDescriptors:categories.layout'
+                		});
+                },
+            	documents: {
+            		fileView: { visible: false },
+            		handlers: { 
+            			onBeforeSave: (info) => {
+            				const report = reportsList.find(r => r.Id === info.name);
+            				
+            				if (report?.Readonly) {
+								const designer = GrapeCity.ActiveReports.Designer.apiOf('ar-web-designer');
+            					designer.notifications.warning("The report cannot be overwritten.", "Original report cannot be changed, use 'Save As' with new report name.");
+            					return false;
+            				}
+            				
+            				return true;
+            			},
+            			onAfterSave: info => {
+                            getReports().then(reports => {
+            					if (reportsList.length !== reports.length)
+            						fillReportsList(reports);
+            					
+            					selectReportElement(info.id);
+                            });
+            			},
+            		}
+            	},
+            	preview: {
+            		openViewer: (options) => {
+            			if (viewer) {
+            				viewer.openReport(options.documentInfo.id);
+            				return;
+            			}
+            			viewer = GrapeCity.ActiveReports.JSViewer.create({
+            				element: '#' + options.element,
+            				reportService: {
+            					url: 'api/reporting',
+            				},
+            				reportID: options.documentInfo.id,
+            				settings: {
+            					zoomType: 'FitPage',
+            				},
+            			});
+            		}
+            	}
+            })
+        });
+		
+		function getReports() {
+			return fetch('reports', { method: 'GET' }).then(r => { return r.json() });
+		}
+		
+		function fillReportsList(reports) {
+			const reportsList = document.getElementById("reportsList");
+			reportsList.innerHTML = "";
+		    for (let i = 0; i < reports.length; i++) {
+		    	const reportName = reports[i].Id;
+		    	const reportElement = document.createElement('li');
+		    	reportElement.className = 'reportList_item';
+		    	const title = document.createElement('span');
+		    	title.innerText = reportName;
+		    	reportElement.appendChild(title);
+		    	reportsList.appendChild(reportElement);
+		    	
+		    	reportElement.addEventListener('click', function () {
+					openReport(reportName);
+		    	});
+		    }
+		}
+		
+		function openReport(reportName) {
+			const designer = GrapeCity.ActiveReports.Designer.apiOf('ar-web-designer');
+			designer.documents.openById(reportName, { platform: 'rdlx', type: 'report', subType: 'cpl' })
+			.then(() => {
+				selectReportElement(reportName);
+			})
+			.catch(() => {
+				//handle OnBeforeSave rejections
+			});
+		}
+		
+		function selectReportElement(reportName) {
+        	const reportsList = document.getElementById("reportsList");
+        	const reports = reportsList.children;
+
+        	for (let i = 0; i < reports.length; i++) {
+				if (reports[i].children[0].innerText === reportName)
+					reports[i].classList.add('active');
+        		else 
+					reports[i].classList.remove('active');
+         	}
+        }
+	</script>
+</body>
+</html>

@@ -1,14 +1,14 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
-import "@grapecity/ar-viewer/dist/jsViewer.min.js";
-import "@grapecity/ar-viewer/dist/jsViewer.min.css";
 
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 
-ReactDOM.render(
+root.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+      <App />
+  </React.StrictMode>
 );

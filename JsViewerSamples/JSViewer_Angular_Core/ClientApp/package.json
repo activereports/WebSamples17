@@ -2,10 +2,9 @@
   "name": "jsviewer_angular_core",
   "version": "0.0.0",
   "scripts": {
-    "deploy-bundles": "ncp ./node_modules/@grapecity/ar-viewer/dist ./src/assets",
     "ng": "ng",
     "start": "ng serve --port 44441",
-    "build": "npm run deploy-bundles && ng build",
+    "build": "ng build",
     "build:ssr": "ng run JSViewer_Angular_Core:server:dev",
     "watch": "ng build --watch --configuration development"
   },
@@ -26,7 +25,7 @@
     "rxjs": "~7.5.5",
     "tslib": "^2.4.0",
     "zone.js": "~0.11.6",
-    "@grapecity/ar-viewer": "17.0.0"
+    "@grapecity/ar-viewer": "17.1.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.0.3",

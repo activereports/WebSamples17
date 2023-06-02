@@ -11,11 +11,16 @@
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="wwwroot\**\*.*" />
-    <EmbeddedResource Include="..\JsViewerReports\*.*" LinkBase="Reports" />
+    <None Include="wwwroot\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\JsViewerReports\**\*.*">
+      <Link>Reports\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.0.0" />
+    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.1.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
     <PackageReference Include="System.Text.Encodings.Web" Version="5.0.1" />

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JsViewerBatchPrint_MVC_Core.Controllers
@@ -6,30 +7,32 @@ namespace JsViewerBatchPrint_MVC_Core.Controllers
     [Route("/")]
     public class HomeController : Controller
     {
-        private readonly string FilesPrefix = "JsViewerBatchPrint_MVC_Core.wwwroot";
-        
         public object Index() => Resource("index.html");
+
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public HomeController(IWebHostEnvironment webHostEnvironment)
+        {
+            _webHostEnvironment = webHostEnvironment;
+        }
 
         [HttpGet("{file}")]
         public object Resource(string file)
         {
-            var stream = GetType().Assembly.GetManifestResourceStream($"{FilesPrefix}.{file}");
-            if (stream == null)
+            string filePath = Path.Combine(_webHostEnvironment.WebRootPath, file);
+
+            if (!System.IO.File.Exists(filePath))
                 return new NotFoundResult();
 
             if (Path.GetExtension(file) == ".html")
-                return new ContentResult() {Content = new StreamReader(stream).ReadToEnd(), ContentType = "text/html"};
+                return new ContentResult() { Content = System.IO.File.ReadAllText(filePath), ContentType = "text/html" };
+
+            var resFile = System.IO.File.ReadAllBytes(filePath);
 
             if (Path.GetExtension(file) == ".ico")
-                using (var memoryStream = new MemoryStream())
-                {
-                    stream.CopyTo(memoryStream);
-                    return new FileContentResult(memoryStream.ToArray(), "image/x-icon") {FileDownloadName = file};
-                }
+                return new FileContentResult(resFile, "image/x-icon") { FileDownloadName = file };
 
-            using (var streamReader = new StreamReader(stream))
-                return new FileContentResult(System.Text.Encoding.UTF8.GetBytes(streamReader.ReadToEnd()),
-                    GetMimeType(file)) {FileDownloadName = file};
+            return new FileContentResult(resFile, GetMimeType(file)) { FileDownloadName = file };
         }
 
 

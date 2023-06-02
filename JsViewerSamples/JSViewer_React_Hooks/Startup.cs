@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
 using System.Reflection;
 using System.Text;
 
@@ -13,7 +14,8 @@ namespace JSViewer_React_Hooks
 {
     public class Startup
     {
-        public static string EmbeddedReportsPrefix = "JSViewer_React_Hooks.Reports";
+        private static readonly string CurrentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)?.Replace("file:\\", "");
+        public static readonly DirectoryInfo ReportsDirectory = new DirectoryInfo(Path.Combine(CurrentDir, "Reports"));
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -63,7 +65,7 @@ namespace JSViewer_React_Hooks
             app.UseCors("AllowLocalhost");
             app.UseReporting(settings =>
             {
-                settings.UseEmbeddedTemplates(EmbeddedReportsPrefix, Assembly.GetAssembly(GetType()));
+                settings.UseFileStore(ReportsDirectory);
                 settings.UseCompression = true;
             });
 

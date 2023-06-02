@@ -1,18 +1,21 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-declare var GrapeCity: any;
+import { JSViewer, createViewer} from '@grapecity/ar-viewer';
 
 @Component({
   selector: 'report-viewer',
   templateUrl: './report-viewer.component.html',
-  styleUrls: ['./report-viewer.component.css'],
+  styleUrls: [
+      './report-viewer.component.css',
+      '../../../node_modules/@grapecity/ar-viewer/dist/jsViewer.min.css'
+  ],
   encapsulation: ViewEncapsulation.None,
 })
 export class ReportViewerComponent {
-  private viewer: any;
+  private viewer: JSViewer | null = null;
 
   @Input() set reportId(reportId: string) {
       if (!this.viewer) {
-          this.viewer = GrapeCity.ActiveReports.JSViewer.create({
+          this.viewer = createViewer({
               element: '#viewerPlaceHolder'
           });
       }

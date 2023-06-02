@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
+using System.Text;
 using GrapeCity.ActiveReports.Aspnetcore.Viewer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,11 +13,14 @@ namespace ReportService
 {
 	public class Startup
 	{
-		public static string EmbeddedReportsPrefix = "ReportService.Reports";
+		private static readonly string CurrentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)?.Replace("file:\\", "");
+		public static readonly DirectoryInfo ReportsDirectory = new DirectoryInfo(Path.Combine(CurrentDir, "Reports"));
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
 			services
 				.AddLogging(config =>
 				{
@@ -39,13 +44,15 @@ namespace ReportService
 			{
 				app.UseDeveloperExceptionPage();
 			}
-
+			
+			app.UseFileServer();
+			
 			// Configure CORS
 			app.UseCors(cors => cors.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost").AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithExposedHeaders("Content-Disposition"));
 
 			app.UseReporting(settings =>
 			{
-				settings.UseEmbeddedTemplates(EmbeddedReportsPrefix, Assembly.GetAssembly(GetType()));
+				settings.UseFileStore(ReportsDirectory);
 				settings.UseCompression = true;
 			});
 

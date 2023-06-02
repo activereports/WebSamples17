@@ -20,19 +20,21 @@ namespace JSViewerReactCore.Controllers
         {
             string[] validExtensions = {".rdl", ".rdlx", ".rdlx-master", ".rpx"};
 
-            var reportsList = GetEmbeddedReports(validExtensions);
+            var reportsList = GetFileStoreReports(validExtensions);
             return new ObjectResult(reportsList);
         }
 
         /// <summary>
-        /// Gets report names from assembly resources
+        /// Gets report names from folder
         /// </summary>
         /// <returns>Report names</returns>
-        private static string[] GetEmbeddedReports(string[] validExtensions) =>
-            typeof(HomeController).Assembly.GetManifestResourceNames()
-                .Where(x => x.StartsWith(Startup.EmbeddedReportsPrefix))
+        private string[] GetFileStoreReports(string[] validExtensions)
+        {
+            return Startup.ReportsDirectory
+                .EnumerateFiles("*.*")
+                .Select(x => x.Name)
                 .Where(x => validExtensions.Any(x.EndsWith))
-                .Select(x => x.Substring(Startup.EmbeddedReportsPrefix.Length + 1))
                 .ToArray();
+        }
     }
 }

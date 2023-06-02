@@ -1,14 +1,13 @@
 import * as React from "react";
 
-interface ARViewer{
-    openReport: (id:string)=>void;
-}
+import { JSViewer, createViewer} from '@grapecity/ar-viewer';
+import "@grapecity/ar-viewer/dist/jsViewer.min.css";
 
 export const ReportViewer: React.FC<{ reportId: string }> = ({ reportId }) => {
-  const [viewerInstance, setViewerInstance] = React.useState<ARViewer | undefined>(undefined);
+  const [viewerInstance, setViewerInstance] = React.useState<JSViewer | undefined>(undefined);
   React.useEffect(() => {
     if (!viewerInstance) {
-      const viewer = (window as any).GrapeCity.ActiveReports.JSViewer.create({
+      const viewer = createViewer({
         element: "#viewerContainer",
       });
       setViewerInstance(viewer);

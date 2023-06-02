@@ -1,12 +1,17 @@
+using System.Reflection;
 using GrapeCity.ActiveReports.Aspnetcore.Viewer;
 using JSViewer_Angular_Core.Controllers;
+using System.Text;
 
 public class Program
 {
-    public const string EmbeddedReportsPrefix = "JSViewer_Angular_Core.Reports";
+    private static readonly string CurrentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)?.Replace("file:\\", "");
+    public static readonly DirectoryInfo ReportsDirectory = new DirectoryInfo(Path.Combine(CurrentDir, "Reports"));
 
     public static void Main(string[] args)
     {
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllersWithViews();
@@ -23,7 +28,7 @@ public class Program
 
         app.UseReporting(settings =>
         {
-            settings.UseEmbeddedTemplates(EmbeddedReportsPrefix, typeof(ReportsController).Assembly);
+            settings.UseFileStore(ReportsDirectory);
             settings.UseCompression = true;
         });
 

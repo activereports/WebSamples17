@@ -7,19 +7,24 @@ namespace BlazorViewerServer.Data
 {
     public class ReportsService
     {
-        public static string EmbeddedReportsPrefix = "BlazorViewerServer.Reports";
         public IEnumerable<string> GetReports()
         {
             string[] validExtensions = { ".rdl", ".rdlx", ".rdlx-master", ".rpx" };
-            return GetEmbeddedReports(validExtensions);
+            return GetFileStoreReports(validExtensions);
         }
 
-        private static string[] GetEmbeddedReports(string[] validExtensions) =>
-            typeof(ReportsService).Assembly.GetManifestResourceNames()
-                .Where(x => x.StartsWith(EmbeddedReportsPrefix))
+        /// <summary>
+        /// Gets report names from folder
+        /// </summary>
+        /// <returns>Report names</returns>
+        private string[] GetFileStoreReports(string[] validExtensions)
+        {
+            return Startup.ReportsDirectory
+                .EnumerateFiles("*.*")
+                .Select(x => x.Name)
                 .Where(x => validExtensions.Any(x.EndsWith))
-                .Select(x => x.Substring(EmbeddedReportsPrefix.Length + 1))
                 .ToArray();
+        }
 
     }
 }

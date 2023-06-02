@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
@@ -13,7 +14,8 @@ namespace JsViewerBatchPrint_MVC_Core
 {
     public class Startup
     {
-        public static string EmbeddedReportsPrefix = "JsViewerBatchPrint_MVC_Core.Reports";
+        private static readonly string CurrentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)?.Replace("file:\\", "");
+        public static readonly DirectoryInfo ReportsDirectory = new DirectoryInfo(Path.Combine(CurrentDir, "Reports"));
 
         public Startup(IConfiguration configuration)
         {
@@ -54,7 +56,7 @@ namespace JsViewerBatchPrint_MVC_Core
 
             app.UseReporting(settings =>
             {
-                settings.UseEmbeddedTemplates(EmbeddedReportsPrefix, Assembly.GetAssembly(GetType()));
+                settings.UseFileStore(ReportsDirectory);
                 settings.UseCompression = true;
             });
             app.UseCors(builder => builder.AllowAnyOrigin());

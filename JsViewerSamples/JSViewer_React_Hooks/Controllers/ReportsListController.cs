@@ -14,15 +14,19 @@ namespace JSViewer_React_Hooks.Controllers
         public IEnumerable<string> Get()
         {
             string[] validExtensions = { ".rdl", ".rdlx", ".rdlx-master" };
-            return GetEmbeddedReports(validExtensions);
+            return GetFileStoreReports(validExtensions);
         }
-        private static string[] GetEmbeddedReports(string[] validExtensions) =>
-            typeof(ReportsListController).Assembly.GetManifestResourceNames()
-                .Where(x => x.StartsWith(Startup.EmbeddedReportsPrefix))
+        /// <summary>
+        /// Gets report names from folder
+        /// </summary>
+        /// <returns>Report names</returns>
+        private string[] GetFileStoreReports(string[] validExtensions)
+        {
+            return Startup.ReportsDirectory
+                .EnumerateFiles("*.*")
+                .Select(x => x.Name)
                 .Where(x => validExtensions.Any(x.EndsWith))
-                .Select(x => x.Substring(Startup.EmbeddedReportsPrefix.Length + 1))
                 .ToArray();
-
-
+        }
     }
 }

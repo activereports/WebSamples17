@@ -9,11 +9,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.0.0" />
+    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.10" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\JsViewerReports\*.*" LinkBase="Reports" />
+    <None Include="..\JsViewerReports\**\*.*">
+      <Link>Reports\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
@@ -29,7 +32,6 @@
     <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
     <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run deploy-bundles" />
   </Target>
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->

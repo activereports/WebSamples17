@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.IO;
+using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +13,8 @@ namespace JSViewerReactCore
 {
     public class Startup
     {
-        public static string EmbeddedReportsPrefix = "JSViewer_React_Core.Reports";
+        private static readonly string CurrentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)?.Replace("file:\\", "");
+        public static readonly DirectoryInfo ReportsDirectory = new DirectoryInfo(Path.Combine(CurrentDir, "Reports"));
 
         public Startup(IConfiguration configuration)
         {
@@ -41,7 +43,7 @@ namespace JSViewerReactCore
 
             app.UseReporting(settings =>
             {
-                settings.UseEmbeddedTemplates(EmbeddedReportsPrefix, Assembly.GetAssembly(GetType()));
+                settings.UseFileStore(ReportsDirectory);
                 settings.UseCompression = true;
             });
 

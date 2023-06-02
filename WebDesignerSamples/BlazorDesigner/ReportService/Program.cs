@@ -2,6 +2,7 @@
 using GrapeCity.ActiveReports.Aspnetcore.Viewer;
 using ReportService.Implementation;
 using ReportService.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,9 @@ builder.Services.AddLogging(config =>
 		config.AddConsole();
 	}
 });
+
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
 builder.Services.AddReporting();
 builder.Services.AddDesigner();
 builder.Services.AddSingleton<ITemplatesService>(new FileSystemTemplates(TemplatesRootDirectory));

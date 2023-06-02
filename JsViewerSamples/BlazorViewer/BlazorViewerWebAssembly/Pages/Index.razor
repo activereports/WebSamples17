@@ -26,7 +26,7 @@
 
     public async void ViewerInitialized()
     {
-        await _viewer.OpenReport(_currentReport);
+        await _viewer.OpenReport(_currentReport ?? "AcmeStore.rdlx");
     }
 
     private async void OnClick(string res)

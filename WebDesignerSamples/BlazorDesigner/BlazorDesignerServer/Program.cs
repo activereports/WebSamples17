@@ -2,6 +2,8 @@ using BlazorDesignerServer.Implementation;
 using BlazorDesignerServer.Services;
 using GrapeCity.ActiveReports.Aspnetcore.Designer;
 using GrapeCity.ActiveReports.Aspnetcore.Viewer;
+using Microsoft.AspNetCore.SignalR;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +16,17 @@ var TemplatesRootDirectory =
 var DataSetsRootDirectory =
 	new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "datasets"));
 
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
 // Add services to the container.
 builder.Services.AddReporting();
 builder.Services.AddDesigner();
 builder.Services.AddRazorPages().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 builder.Services.AddServerSideBlazor();
+builder.Services.Configure<HubOptions>(options =>
+{
+	options.MaximumReceiveMessageSize = 524288000; //500MB
+});
 builder.Services.AddSingleton<ITemplatesService>(new FileSystemTemplates(TemplatesRootDirectory));
 builder.Services.AddSingleton<IDataSetsService>(new FileSystemDataSets(DataSetsRootDirectory));
 builder.Services.AddCors();

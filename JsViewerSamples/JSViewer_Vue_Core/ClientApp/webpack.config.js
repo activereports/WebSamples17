@@ -41,9 +41,11 @@ module.exports = {
         })
     ],
     devServer: {
-        contentBase: 'src/',
+        static: {
+			directory: 'src/',
+		},
         historyApiFallback: true,
-        disableHostCheck: true,
+        allowedHosts: "all",
         proxy: {
             '/api/*': {target: 'http://localhost:58723', secure: false},
             '/reports': {target: 'http://localhost:58723', secure: false}

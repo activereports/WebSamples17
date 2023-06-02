@@ -8,7 +8,7 @@ interface ReportProviderInterface{
 
 export const reportContext = React.createContext<ReportProviderInterface | undefined>(undefined);
 
-export const ReportProvider: React.FC = ({children})=>{
+export const ReportProvider: React.FC<{children: any}> = ({children})=>{
     const [currentReport, setCurrentReport] =  React.useState('');
     const [reportsList, setReportsList] = React.useState([]);
     React.useEffect(() => {

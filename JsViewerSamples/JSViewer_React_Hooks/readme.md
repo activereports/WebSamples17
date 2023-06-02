@@ -8,7 +8,7 @@ This sample requires:
  * [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) 17.0 or newer
  * [.NET 6.0 SDK](https://www.microsoft.com/net/download)
  * [.NET Core Hosting Bundle](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-aspnetcore-6.0.0-windows-hosting-bundle-installer) (for deployment to IIS)
- * [Node.js](https://nodejs.org) 8.x or 10.x.
+ * [Node.js](https://nodejs.org) 16.x or 18.x.
 
 ## Build the sample
 
