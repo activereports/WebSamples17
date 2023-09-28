@@ -40,7 +40,7 @@ export default class App extends Component {
 
     render() {
         return (
-            <div className="main">
+            <div className="page-container">
                 <ReportList items={this.state.reportsList}
                             selectedReport={this.state.selectedReport}
                             selectReport={this.selectReport}

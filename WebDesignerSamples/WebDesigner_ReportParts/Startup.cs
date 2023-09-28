@@ -1,0 +1,63 @@
+﻿using System.IO;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+using GrapeCity.ActiveReports.Aspnetcore.Viewer;
+using GrapeCity.ActiveReports.Aspnetcore.Designer;
+using System.Text;
+using WebDesigner_ReportParts.Implementation;
+using WebDesigner_ReportParts.Services;
+
+namespace WebDesignerMvcCore
+{
+	public class Startup
+	{
+		private static readonly DirectoryInfo ResourcesRootDirectory = 
+			new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "resources" + Path.DirectorySeparatorChar));
+
+		private static readonly DirectoryInfo TemplatesRootDirectory = 
+			new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "templates" + Path.DirectorySeparatorChar));
+		
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
+
+		public IConfiguration Configuration { get; }
+
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+			services
+				.AddReporting()
+				.AddDesigner()
+				.AddSingleton<ITemplatesService>(new FileSystemTemplates(TemplatesRootDirectory))
+				.AddMvc(options => options.EnableEndpointRouting = false)
+				.AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+		}
+
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		{
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+			}
+			
+			app.UseFileServer();
+
+			app.UseReporting(config => config.UseFileStore(ResourcesRootDirectory));
+			app.UseDesigner(config =>
+			{
+				config.UseFileStore(ResourcesRootDirectory, false);
+			});
+            
+			app.UseMvc();
+		}
+	}
+}

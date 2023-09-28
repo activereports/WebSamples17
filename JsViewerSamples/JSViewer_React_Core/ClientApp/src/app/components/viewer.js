@@ -1,4 +1,7 @@
 import React, {Component} from "react";
+import {createViewer} from '@grapecity/ar-viewer';
+
+import "@grapecity/ar-viewer/dist/jsViewer.min.css";
 
 export default class Viewer extends Component {
     constructor(props) {
@@ -6,7 +9,7 @@ export default class Viewer extends Component {
     }
 
     componentDidMount() {
-        this.viewer = GrapeCity.ActiveReports.JSViewer.create({
+        this.viewer = createViewer({
             element: '#viewerContainer'
         });
     }
@@ -17,9 +20,7 @@ export default class Viewer extends Component {
 
     render() {
         return (
-            <div>
-                <div id="viewerContainer"/>
-            </div>
+            <div className="main-container" id="viewerContainer"/>
         );
     }
 }

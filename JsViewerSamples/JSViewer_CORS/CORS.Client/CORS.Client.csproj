@@ -61,6 +61,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="include\favicon.ico" />
+    <Content Include="include\index.css" />
+    <Content Include="include\jsViewer.min.css" />
+    <Content Include="include\jsViewer.min.js" />
+    <Content Include="include\jsViewer.chart.min.css" />
+    <Content Include="include\jsViewer.chart.min.js" />
+    <Content Include="include\script.js" />
     <Content Include="index.html" />
     <Content Include="Web.config" />
   </ItemGroup>

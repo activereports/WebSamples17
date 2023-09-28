@@ -31,7 +31,7 @@ public class ReportService
         return reports;
     }
 
-    public void SaveReport(string name, Report report)
+    public void SaveReport(string name, Report report, bool temporary=false)
     {
         var reportInfo = _reportsDbContext.Reports.FirstOrDefault(r => r.Id == name);
         if (reportInfo != null)
@@ -49,6 +49,7 @@ public class ReportService
                 Name = name,
                 Content = ReportConverter.ToXml(report),
                 Type = report.IsFixedPageReport ? "FPL" : "CPL",
+                Temporary = temporary
             });
         }
         

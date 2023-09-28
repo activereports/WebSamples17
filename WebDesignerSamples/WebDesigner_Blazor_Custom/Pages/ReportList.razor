@@ -7,6 +7,8 @@
         <ul id="reportsList" class="nav navbar-nav">
             @foreach (var report in ReportsList)
             {
+                if(report.Temporary) { continue; }
+
                 var reportId = report.Id;
                 <li class="reportList_item @(CurrentReport == reportId ? "active" : "" )" @onclick="()=>OnClickCallback.InvokeAsync(reportId)">
                     <span>@report.Id</span>

@@ -6,9 +6,9 @@
   "license": "MIT",
   "devDependencies": {
     "ncp": "^2.0.0",
-    "@grapecity/ar-viewer": "17.1.1"
+    "@grapecity/ar-viewer": "17.2.0"
   },
   "scripts": {
-    "build": "ncp ./node_modules/@grapecity/ar-viewer/dist ../wwwroot"
+    "build": "ncp ./node_modules/@grapecity/ar-viewer/esm ../wwwroot"
   }
 }

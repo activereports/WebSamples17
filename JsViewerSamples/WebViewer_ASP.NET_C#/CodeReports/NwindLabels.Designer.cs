@@ -34,10 +34,10 @@
 			this.txtRegion = new GrapeCity.ActiveReports.SectionReportModel.TextBox();
 			this.txtPostalCode = new GrapeCity.ActiveReports.SectionReportModel.TextBox();
 			this.txtCountry = new GrapeCity.ActiveReports.SectionReportModel.TextBox();
+			this.picture1 = new GrapeCity.ActiveReports.SectionReportModel.Picture();
 			this.Detail = new GrapeCity.ActiveReports.SectionReportModel.Detail();
 			this.PageHeader = new GrapeCity.ActiveReports.SectionReportModel.PageHeader();
 			this.PageFooter = new GrapeCity.ActiveReports.SectionReportModel.PageFooter();
-			this.picture1 = new GrapeCity.ActiveReports.SectionReportModel.Picture();
 			((System.ComponentModel.ISupportInitialize)(this.lblAddr1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblAddr2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtName)).BeginInit();
@@ -110,6 +110,16 @@
 			resources.ApplyResources(this.txtCountry, "txtCountry");
 			this.txtCountry.Name = "txtCountry";
 			// 
+			// picture1
+			// 
+			this.picture1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			resources.ApplyResources(this.picture1, "picture1");
+			this.picture1.ImageBase64String = resources.GetString("picture1.ImageBase64String");
+			this.picture1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.picture1.LineWeight = 1F;
+			this.picture1.Name = "picture1";
+			this.picture1.SizeMode = GrapeCity.ActiveReports.SectionReportModel.SizeModes.Zoom;
+			// 
 			// Detail
 			// 
 			this.Detail.CanGrow = false;
@@ -141,16 +151,6 @@
 			this.PageFooter.CanGrow = false;
 			this.PageFooter.Name = "PageFooter";
 			// 
-			// picture1
-			// 
-			this.picture1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			resources.ApplyResources(this.picture1, "picture1");
-			this.picture1.ImageData = ((System.IO.Stream)(resources.GetObject("picture1.ImageData")));
-			this.picture1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.picture1.LineWeight = 1F;
-			this.picture1.Name = "picture1";
-			this.picture1.SizeMode = GrapeCity.ActiveReports.SectionReportModel.SizeModes.Zoom;
-			// 
 			// NwindLabels
 			// 
 			this.MasterReport = false;
@@ -165,6 +165,8 @@
 			this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-family: Times New Roman; font-size: 14pt; font-weight: bold; font-style: ita" +
             "lic; ddo-char-set: 186", "Heading2", "Normal"));
 			this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-size: 13pt; font-weight: bold; ddo-char-set: 186", "Heading3", "Normal"));
+			this.FetchData += new GrapeCity.ActiveReports.SectionReport.FetchEventHandler(this.ActiveReport_FetchData);
+			this.DataInitialize += new System.EventHandler(this.ActiveReport_DataInitialize);
 			((System.ComponentModel.ISupportInitialize)(this.lblAddr1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblAddr2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtName)).EndInit();
@@ -174,8 +176,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.txtPostalCode)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtCountry)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.picture1)).EndInit();
-			this.FetchData += new GrapeCity.ActiveReports.SectionReport.FetchEventHandler(this.ActiveReport_FetchData);
-			this.DataInitialize += new System.EventHandler(this.ActiveReport_DataInitialize);
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
 		}

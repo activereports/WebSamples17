@@ -9,8 +9,8 @@
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.1.1" />
-    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Designer" Version="17.1.1" />
+    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.2.0" />
+    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Designer" Version="17.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.14" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
   </ItemGroup>
@@ -20,10 +20,13 @@
     <Content Remove="appsettings.json" />
     <Content Remove="GrapeCity.ActiveReports.config" />
     <None Include="resources\**" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="wwwwroot\**" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="wwwwroot\**" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views/**/*.cshtml" />
+    <None Remove="templates\OrganizationBrandedReport.rdlx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="templates\OrganizationBrandedReport.rdlx" />
   </ItemGroup>
   <Target Name="ClientBuild" BeforeTargets="BeforeBuild">
     <Exec WorkingDirectory="ClientApp" Command="npm install" />

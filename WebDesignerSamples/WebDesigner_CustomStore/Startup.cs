@@ -54,7 +54,9 @@ namespace WebDesignerCustomStore
 			{
 				app.UseDeveloperExceptionPage();
 			}
-
+			
+			app.UseFileServer();
+			
 			var resourcesService = app.ApplicationServices.GetRequiredService<ICustomStoreService>();
 			app.UseReporting(config => config.UseCustomStore(id =>
 			{
@@ -67,8 +69,7 @@ namespace WebDesignerCustomStore
 				config.UseCustomStore(resourcesService);
 				config.UseDataSetTemplates(dataSetsService);
 			});
-
-			app.UseStaticFiles();
+            
 			app.UseMvc();
 		}
 	}

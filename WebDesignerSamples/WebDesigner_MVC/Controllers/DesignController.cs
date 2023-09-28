@@ -1,56 +1,37 @@
 ﻿using System.IO;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 
 namespace WebDesigner_MVC.Controllers
 {
 	public class DesignController : Controller
 	{
-		[Route("")]
 		[HttpGet]
+		[Route("")]
+		[Route("index")]
 		public ActionResult Index()
 		{
-			return RedirectToAction("create");
-		}
-
-		[Route("create")]
-		[HttpGet]
-		public ActionResult Create()
-		{
-			return View("Index");
-		}
-
-		[Route("edit/{id}")]
-		[HttpGet]
-		public ActionResult Edit(string id)
-		{
-			if (string.IsNullOrWhiteSpace(id)) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			ViewBag.Id = id;
-			return View("Index");
+			return Resource("index.html");
 		}
 
 		[HttpGet]
 		[Route("{file}")]
 		public ActionResult Resource(string file)
 		{
-			var stream = GetType().Assembly.GetManifestResourceStream("WebDesigner_MVC.wwwroot." + file);
-			if (stream == null)
+			string filePath = Path.Combine(HttpRuntime.AppDomainAppPath, "wwwroot", file);
+			if (!System.IO.File.Exists(filePath))
 				return new HttpNotFoundResult();
 
 			if (Path.GetExtension(file) == ".html")
-				return new ContentResult { Content = new StreamReader(stream).ReadToEnd(), ContentType = "text/html" };
+				return new ContentResult() { Content = System.IO.File.ReadAllText(filePath), ContentType = "text/html" };
+
+			var resFile = System.IO.File.ReadAllBytes(filePath);
 
 			if (Path.GetExtension(file) == ".ico")
-				using (var memoryStream = new MemoryStream())
-				{
-					stream.CopyTo(memoryStream);
-					return new FileContentResult(memoryStream.ToArray(), "image/x-icon") { FileDownloadName = file };
-				}
+				return new FileContentResult(resFile, "image/x-icon") { FileDownloadName = file };
 
-			using (var streamReader = new StreamReader(stream))
-				return new FileContentResult(System.Text.Encoding.UTF8.GetBytes(streamReader.ReadToEnd()),
-					GetMimeType(file))
-				{ FileDownloadName = file };
+			return new FileContentResult(resFile, GetMimeType(file)) { FileDownloadName = file };
 		}
 
 		/// <summary>

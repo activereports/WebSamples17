@@ -1,39 +1,41 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-declare var GrapeCity: any;
-declare var $: any;
+import { arWebDesigner } from '@grapecity/ar-designer';
+import { JSViewer, createViewer } from '@grapecity/ar-viewer';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: [
+        './home.component.css',
+        '../../../node_modules/@grapecity/ar-designer/dist/web-designer.css',
+        '../../../node_modules/@grapecity/ar-viewer/dist/jsViewer.min.css'
+    ],
+	encapsulation: ViewEncapsulation.None, 
 })
 
 export class HomeComponent implements OnInit {
-    private viewer: any;
+    private viewer: JSViewer | null = null;
 
     constructor(private route: ActivatedRoute) { }
 
     ngOnInit() {
-        GrapeCity.ActiveReports.Designer.create('#ar-web-designer', {
+        arWebDesigner.create('#ar-web-designer', {
             rpx: { enabled: true },
             appBar: { openButton: { visible: true } },
-            data: { dataSets: { canModify: true }, dataSources: { canModify: true } },
+            data: { dataSets: { visible:true, canModify: true }, dataSources: { canModify: true } },
             preview: {
                 openViewer: (options: any) => {
                     if (this.viewer) {
                         this.viewer.openReport(options.documentInfo.id);
                         return;
                     }
-                    this.viewer = GrapeCity.ActiveReports.JSViewer.create({
+                    this.viewer = createViewer({
                         element: '#' + options.element,
                         reportService: {
                             url: 'api/reporting',
                         },
-                        reportID: options.documentInfo.id,
-                        settings: {
-                            zoomType: 'FitPage',
-                        },
+                        reportID: options.documentInfo.id
                     });
                 }
             }
@@ -41,6 +43,7 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        this.viewer.destroy();
+        this.viewer?.destroy();
+        arWebDesigner.destroy('#ar-web-designer');
 	}
 }

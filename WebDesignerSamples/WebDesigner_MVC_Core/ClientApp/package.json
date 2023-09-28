@@ -6,11 +6,13 @@
     "license": "MIT",
     "dependencies": {},
     "devDependencies": {
-        "@grapecity/ar-viewer": "17.1.1",
-        "@grapecity/ar-designer": "17.1.1",
+        "@grapecity/ar-viewer": "17.2.0",
+        "@grapecity/ar-designer": "17.2.0",
         "ncp": "^2.0.0"
     },
     "scripts": {
-        "build": "ncp ./node_modules/@grapecity/ar-viewer/dist ../wwwroot&& ncp ./node_modules/@grapecity/ar-designer/dist ../wwwroot"
+        "build": "npm run build:viewer && npm run build:designer",
+        "build:viewer": "ncp ./node_modules/@grapecity/ar-viewer/esm ../wwwroot",
+        "build:designer": "ncp ./node_modules/@grapecity/ar-designer/esm ../wwwroot && ncp ./node_modules/@grapecity/ar-designer/dist/vendor ../wwwroot/vendor"
     }
 }

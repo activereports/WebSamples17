@@ -5,7 +5,7 @@ import { ReportProvider, reportContext } from "./reportProvider";
 
 function App() {
   return (
-    <div className="main">
+    <div className="page-container">
       <ReportProvider>
         <ReportsList />
         <reportContext.Consumer>

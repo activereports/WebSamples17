@@ -51,6 +51,8 @@ namespace WebDesignerMvcCore
 			{
 				app.UseDeveloperExceptionPage();
 			}
+			
+			app.UseFileServer();
 
 			app.UseReporting(config => config.UseFileStore(ResourcesRootDirectory));
 			app.UseDesigner(config =>
@@ -58,8 +60,7 @@ namespace WebDesignerMvcCore
 				config.UseFileStore(ResourcesRootDirectory, false);
 				config.UseDataSetTemplates(dataSetsService);
 			});
-
-			app.UseStaticFiles();
+            
 			app.UseMvc();
 		}
 	}

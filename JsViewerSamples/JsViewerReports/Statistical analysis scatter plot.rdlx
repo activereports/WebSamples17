@@ -178,7 +178,7 @@
 									</BorderStyle>
 								</Style>
 							</AxisLine>
-							<Format>0.##</Format>
+							<Format>f</Format>
 							<Labels>
 								<Style>
 									<FontFamily>arial</FontFamily>
@@ -245,7 +245,7 @@
 									</BorderStyle>
 								</Style>
 							</AxisLine>
-							<Format>d0</Format>
+							<Format>f</Format>
 							<Labels>
 								<Style>
 									<FontSize>8pt</FontSize>
@@ -403,7 +403,7 @@
 								</Style>
 							</Text>
 							<Tooltip>
-								<Template>Price: {valueField.value:d2}</Template>
+								<Template>Price: {valueField.value:#,##0.00}</Template>
 							</Tooltip>
 						</Config>
 						<Encodings>
@@ -512,7 +512,7 @@
 									</BorderStyle>
 								</Style>
 							</AxisLine>
-							<Format>0.##</Format>
+							<Format>f</Format>
 							<Labels>
 								<Style>
 									<FontFamily>arial</FontFamily>
@@ -579,7 +579,7 @@
 									</BorderStyle>
 								</Style>
 							</AxisLine>
-							<Format>d0</Format>
+							<Format>f</Format>
 							<Labels>
 								<Style>
 									<FontSize>8pt</FontSize>
@@ -735,7 +735,7 @@
 								</Style>
 							</Text>
 							<Tooltip>
-								<Template>{valueField.value:d2} : {xField.value:d2}</Template>
+								<Template>{valueField.value:#,##0.00} : {xField.value:#,##0.00}</Template>
 							</Tooltip>
 						</Config>
 						<Encodings>
@@ -844,7 +844,7 @@
 									</BorderStyle>
 								</Style>
 							</AxisLine>
-							<Format>0.##</Format>
+							<Format>f</Format>
 							<Labels>
 								<Style>
 									<FontFamily>arial</FontFamily>
@@ -911,7 +911,7 @@
 									</BorderStyle>
 								</Style>
 							</AxisLine>
-							<Format>d0</Format>
+							<Format>f</Format>
 							<Labels>
 								<Style>
 									<FontSize>8pt</FontSize>
@@ -1190,7 +1190,7 @@
 									</BorderStyle>
 								</Style>
 							</AxisLine>
-							<Format>0.##</Format>
+							<Format>f</Format>
 							<Labels>
 								<Style>
 									<FontFamily>arial</FontFamily>
@@ -1257,7 +1257,7 @@
 									</BorderStyle>
 								</Style>
 							</AxisLine>
-							<Format>d0</Format>
+							<Format>f</Format>
 							<Labels>
 								<Style>
 									<FontSize>8pt</FontSize>

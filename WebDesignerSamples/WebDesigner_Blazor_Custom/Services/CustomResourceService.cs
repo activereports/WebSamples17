@@ -19,7 +19,7 @@ internal class CustomResourceService : IResourcesService
 
     public IReportInfo[] GetReportsList()
     {
-        return _reportService.GetReports().Cast<IReportInfo>().ToArray();
+        return _reportService.GetReports().Where(reportInfo => !reportInfo.Temporary).Cast<IReportInfo>().ToArray();
     }
 
     public string SaveReport(string name, Report report, bool isTemporary = false)
@@ -27,7 +27,7 @@ internal class CustomResourceService : IResourcesService
         var reportId = Uri.UnescapeDataString(name);
         report.Name = reportId;
         var reportName = isTemporary ? Guid.NewGuid() + ".rdlx" : reportId;
-        _reportService.SaveReport(reportName, report);
+        _reportService.SaveReport(reportName, report, isTemporary);
         return reportName;
     }
 

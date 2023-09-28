@@ -117,7 +117,7 @@
                 },
                 OnAfterSave = (info) =>
                 {
-                    _reports = ReportService.GetReports();
+                    _reports = ReportService.GetReports().Where(reportFile => !reportFile.Temporary).ToList();
                     _currentReport = info.Id;
                     StateHasChanged();
                 }
@@ -156,8 +156,14 @@
     {
         try
         {
-            await _designer.Documents.OpenById(reportId, SupportedDocumentType.cpl);
             _currentReport = reportId;
+
+            if(_viewer != null)
+            {
+                await JSRuntime.InvokeVoidAsync("backToDesigner");
+            }
+
+            await _designer.Documents.OpenById(reportId, SupportedDocumentType.cpl);
         }
         catch
         {

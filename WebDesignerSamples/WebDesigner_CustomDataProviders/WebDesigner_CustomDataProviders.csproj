@@ -10,8 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.OData" Version="1.0.20211.49" />
-    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.1.1" />
-    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Designer" Version="17.1.1" />
+    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.2.0" />
+    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Designer" Version="17.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.113" />
     <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.113" />
@@ -25,9 +25,6 @@
     <Content Include="templates\**" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="resources\**" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="wwwwroot\**" CopyToPublishDirectory="PreserveNewest" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views/**/*.cshtml" />
   </ItemGroup>
   <Target Name="ClientBuild" BeforeTargets="BeforeBuild">
     <Exec WorkingDirectory="ClientApp" Command="npm install" />

@@ -1,5 +1,5 @@
 <template>
-<div class="main">
+<div class="page-container">
     <ReportList 
         :reportList="reportList" 
         :selectedReport="selectedReport" 
@@ -8,7 +8,7 @@
 </div>
 </template>
 <script>
-import ReportList from './components/report-list/ReportList.vue';
+import ReportList from './components/ReportList.vue';
 import Viewer from './components/Viewer.vue';
 
 export default {
@@ -43,8 +43,7 @@ export default {
 }
 </script>
 <style>
-    .main {
-        width: 100%;
-        overflow-x: hidden
+    .page-container {
+      display: flex;
     }
 </style>

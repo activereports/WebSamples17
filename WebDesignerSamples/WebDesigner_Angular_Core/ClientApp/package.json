@@ -26,8 +26,8 @@
     "rxjs": "~7.5.5",
     "tslib": "^2.4.0",
     "zone.js": "~0.11.6",
-    "@grapecity/ar-viewer": "17.1.1",
-    "@grapecity/ar-designer": "17.1.1"
+    "@grapecity/ar-viewer": "17.2.0",
+    "@grapecity/ar-designer": "17.2.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.0.3",

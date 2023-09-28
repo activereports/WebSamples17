@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
   <!-- IIS Virtual Directory name -->
   <!--<base href="/JSViewer_CORS_Core /">-->
@@ -13,75 +12,16 @@
   <link href="jsViewer.min.css" rel="stylesheet">
   <link href="index.css" rel="stylesheet">
 </head>
-
-<body onload="loadViewer()">
-    <div style="width: 100%; overflow-x: hidden">
-        <div style="float:left; width: 200pt" class="main-nav navbar">
-            <div id='list-heading'>Select report</div>
-            <ul id="reportsList" class="nav navbar-nav"></ul>
-        </div>
-        <div style="float:right;width:calc(100% - 200pt)" id="viewerContainer">
-        </div>
-    </div>
-    <script type="text/javascript" src="jsViewer.min.js"></script>
-    <script type="text/javascript">
-        const serverUrl = 'http://localhost:50221/';
-        let viewer;
-
-        function loadViewer() {
-            viewer = GrapeCity.ActiveReports.JSViewer.create({
-                element: '#viewerContainer',
-                reportService: {
-                    url: serverUrl + 'api/reporting',
-                    onRequest: (init) => {init.credentials = 'omit';}
-                },
-            });
-            localize();
-            populateReports();
-        }
-
-        function setActive(report) {
-            let reportsList = document.getElementById("reportsList");
-            let reports = reportsList.children;
-            for (let i = 0; i < reports.length; i++) {
-                reports[i].classList.remove('active');
-            }
-            report.classList.add('active');
-        }
-
-        function populateReports() {
-            let reportsList = document.getElementById("reportsList");
-            let oReq = new XMLHttpRequest();
-            oReq.onload = function () {
-                let reportsArray = JSON.parse(this.responseText);
-                for (let i = 0; i < reportsArray.length; i++) {
-                    const reportName = reportsArray[i];
-                    const report = document.createElement('li');
-                    report.className = 'reportList_item';
-                    if (i === 0) report.className += ' active'
-                    const title = document.createElement('span');
-                    title.innerText = reportName;
-                    report.appendChild(title);
-                    reportsList.appendChild(report);
-
-                    report.addEventListener('click', function () {
-                        viewer.openReport(reportName);
-                        setActive(report);
-                    });
-                }
-                if (reportsArray.length > 0)
-                    viewer.openReport(reportsArray[0]);
-            };
-            oReq.open("get", serverUrl + "reports", false);
-            oReq.send();
-        }
-
-        function localize() {
-            if (navigator.language === 'ja') {
-                document.getElementById("list-heading").innerText = "レポートを選択";
-                document.title = "JSビューア";
-            }
-        }
-    </script>
+<body>
+<div class="page-container">
+    <nav class="sidebar-container">
+        <div class="sidebar-header">Select report</div>
+        <div class="horizontal-separator"></div>
+        <ul class="navbar" id="reportsList"></ul>
+    </nav>
+    <main class="main-container" id="viewerContainer" >
+    </main>
+</div>
 </body>
+<script type="module" src="script.js"></script>
 </html>

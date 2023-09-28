@@ -9,14 +9,14 @@
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\..\JsViewerReports\**\*.*">
+    <Content Include="..\..\JsViewerReports\**\*.*">
       <Link>Reports\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.1.1" />
-    <PackageReference Include="GrapeCity.ActiveReports.Blazor.Viewer" Version="17.1.1" />
+    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.2.0" />
+    <PackageReference Include="GrapeCity.ActiveReports.Blazor.Viewer" Version="17.2.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
   </ItemGroup>
 </Project>

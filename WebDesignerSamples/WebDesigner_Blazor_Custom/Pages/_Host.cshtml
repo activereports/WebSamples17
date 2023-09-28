@@ -30,3 +30,10 @@
     <script src="_framework/blazor.server.js"></script>
 </body>
 </html>
+
+<script>
+    window.backToDesigner = () => {
+        var backBtn = document.getElementById("viewer-container-button-back");
+        if (backBtn) backBtn.click();
+    };
+</script>

@@ -128,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "WebDesigner_Angular_Core"
+  "defaultProject": "WebDesigner_Angular_Core",
+  "cli": {
+    "analytics": false
+  }
 }

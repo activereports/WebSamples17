@@ -1,12 +1,15 @@
 <template>
-    <div id="viewerContainer">
+    <div class="main-container" id="viewerContainer">
     </div>
 </template>
 <script>
+
+    import {createViewer} from '@grapecity/ar-viewer';
+    import "@grapecity/ar-viewer/esm/jsViewer.min.css";
     export default {
         props: ['reportName'],
         mounted() {
-            this.viewer = new GrapeCity.ActiveReports.JSViewer.create({
+            this.viewer = createViewer({
                 element: '#viewerContainer'
             });
         },
@@ -18,9 +21,8 @@
     }
 </script>
 <style>
-    #viewerContainer {
-        height: 100vh;
-        float: right;
-        width: calc(100% - 200pt);
+    .main-container {
+      height: 100vh;
+      flex: 3;
     }
 </style>

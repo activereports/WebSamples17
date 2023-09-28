@@ -32,4 +32,5 @@ public class ReportInfo : IReportInfo
     public string Type { get; set; }
     public byte[] Content { get; set; }
     public bool Readonly { get; set; }
+    public bool Temporary { get; set; }
 }

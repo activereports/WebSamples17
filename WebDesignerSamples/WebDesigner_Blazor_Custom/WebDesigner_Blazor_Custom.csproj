@@ -5,10 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Designer" Version="17.1.1" />
-    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.1.1" />
-    <PackageReference Include="GrapeCity.ActiveReports.Blazor.Designer" Version="17.1.1" />
-    <PackageReference Include="GrapeCity.ActiveReports.Blazor.Viewer" Version="17.1.1" />
+    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Designer" Version="17.2.0" />
+    <PackageReference Include="GrapeCity.ActiveReports.Aspnetcore.Viewer" Version="17.2.0" />
+    <PackageReference Include="GrapeCity.ActiveReports.Blazor.Designer" Version="17.2.0" />
+    <PackageReference Include="GrapeCity.ActiveReports.Blazor.Viewer" Version="17.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.14" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
   </ItemGroup>

@@ -54,6 +54,8 @@ namespace WebDesignerCustomDataProviders
 				app.UseDeveloperExceptionPage();
 			}
 
+			app.UseFileServer();
+			
 			app.UseReporting(config => {
 				config.UseFileStore(ResourcesRootDirectory);
 				config.UseDataProviders(new GrapeCity.ActiveReports.Web.Viewer.DataProviderInfo[]
@@ -79,8 +81,7 @@ namespace WebDesignerCustomDataProviders
 				});
 				config.UseDataSetTemplates(dataSetsService);
 			});
-
-			app.UseStaticFiles();
+            
 			app.UseMvc();
 		}
 	}

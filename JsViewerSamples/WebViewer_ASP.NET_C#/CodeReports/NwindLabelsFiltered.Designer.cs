@@ -25,8 +25,6 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NwindLabelsFiltered));
-			this.Country = new SectionReportModel.Parameter();
-			this.Parameters.Add(this.Country);
 			this.lblAddr1 = new GrapeCity.ActiveReports.SectionReportModel.Label();
 			this.lblAddr2 = new GrapeCity.ActiveReports.SectionReportModel.Label();
 			this.linSep1 = new GrapeCity.ActiveReports.SectionReportModel.Line();
@@ -36,10 +34,11 @@
 			this.txtRegion = new GrapeCity.ActiveReports.SectionReportModel.TextBox();
 			this.txtPostalCode = new GrapeCity.ActiveReports.SectionReportModel.TextBox();
 			this.txtCountry = new GrapeCity.ActiveReports.SectionReportModel.TextBox();
+			this.picture1 = new GrapeCity.ActiveReports.SectionReportModel.Picture();
+			this.Country = new GrapeCity.ActiveReports.SectionReportModel.Parameter();
 			this.Detail = new GrapeCity.ActiveReports.SectionReportModel.Detail();
 			this.PageHeader = new GrapeCity.ActiveReports.SectionReportModel.PageHeader();
 			this.PageFooter = new GrapeCity.ActiveReports.SectionReportModel.PageFooter();
-			this.picture1 = new GrapeCity.ActiveReports.SectionReportModel.Picture();
 			((System.ComponentModel.ISupportInitialize)(this.lblAddr1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblAddr2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtName)).BeginInit();
@@ -112,6 +111,27 @@
 			resources.ApplyResources(this.txtCountry, "txtCountry");
 			this.txtCountry.Name = "txtCountry";
 			// 
+			// picture1
+			// 
+			this.picture1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			resources.ApplyResources(this.picture1, "picture1");
+			this.picture1.ImageBase64String = resources.GetString("picture1.ImageBase64String");
+			this.picture1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.picture1.LineWeight = 1F;
+			this.picture1.Name = "picture1";
+			this.picture1.SizeMode = GrapeCity.ActiveReports.SectionReportModel.SizeModes.Zoom;
+			// 
+			// Country
+			// 
+			this.Country.DefaultValue = "UK";
+			this.Country.DisplayFormat = null;
+			this.Country.Key = "Country";
+			this.Country.Prompt = "Country:";
+			this.Country.PromptUser = true;
+			this.Country.QueryCreated = false;
+			this.Country.Tag = null;
+			this.Country.Type = GrapeCity.ActiveReports.SectionReportModel.Parameter.DataType.String;
+			// 
 			// Detail
 			// 
 			this.Detail.ColumnCount = 2;
@@ -142,33 +162,13 @@
 			this.PageFooter.CanGrow = false;
 			this.PageFooter.Name = "PageFooter";
 			// 
-			// picture1
-			// 
-			this.picture1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			resources.ApplyResources(this.picture1, "picture1");
-			this.picture1.ImageData = ((System.IO.Stream)(resources.GetObject("picture1.ImageData")));
-			this.picture1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.picture1.LineWeight = 1F;
-			this.picture1.Name = "picture1";
-			this.picture1.SizeMode = GrapeCity.ActiveReports.SectionReportModel.SizeModes.Zoom;
-
-			// 
-			// Country
-			// 
-			this.Country.DefaultValue = "UK";
-			this.Country.Key = "Country";
-			this.Country.Prompt = "Country:";
-			this.Country.PromptUser = true;
-			this.Country.QueryCreated = false;
-			this.Country.Tag = null;
-			this.Country.Type = GrapeCity.ActiveReports.SectionReportModel.Parameter.DataType.String;
-
-			// 
 			// NwindLabelsFiltered
 			// 
 			this.MasterReport = false;
 			this.PageSettings.PaperHeight = 11F;
 			this.PageSettings.PaperWidth = 8.5F;
+			this.Parameters.AddRange(new GrapeCity.ActiveReports.SectionReportModel.Parameter[] {
+            this.Country});
 			this.Sections.Add(this.PageHeader);
 			this.Sections.Add(this.Detail);
 			this.Sections.Add(this.PageFooter);
@@ -177,6 +177,8 @@
 			this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-size: 16pt; font-weight: bold; ddo-char-set: 186", "Heading1", "Normal"));
 			this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-size: 14pt; font-weight: bold; font-style: italic; ddo-char-set: 186", "Heading2", "Normal"));
 			this.StyleSheet.Add(new DDCssLib.StyleSheetRule("font-size: 13pt; font-weight: bold; ddo-char-set: 186", "Heading3", "Normal"));
+			this.FetchData += new GrapeCity.ActiveReports.SectionReport.FetchEventHandler(this.ActiveReport_FetchData);
+			this.DataInitialize += new System.EventHandler(this.ActiveReport_DataInitialize);
 			((System.ComponentModel.ISupportInitialize)(this.lblAddr1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblAddr2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtName)).EndInit();
@@ -186,8 +188,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.txtPostalCode)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtCountry)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.picture1)).EndInit();
-			this.FetchData += new GrapeCity.ActiveReports.SectionReport.FetchEventHandler(this.ActiveReport_FetchData);
-			this.DataInitialize += new System.EventHandler(this.ActiveReport_DataInitialize);
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
 		}
